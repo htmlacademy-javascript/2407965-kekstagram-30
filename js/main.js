@@ -1,4 +1,3 @@
-import Console from './Console.js';
 import effectMapList from './EffectMapList.js';
 
 // module1-tasks
@@ -244,8 +243,8 @@ form.addEventListener('submit', (event) => {
 
   const isValid = pristine.validate();
   if (isValid) {
-    Console.log('Можно отправлять');
+    console.log('Можно отправлять');
   } else {
-    Console.log('Форма не валидна!');
+    console.log('Форма не валидна!');
   }
 });
