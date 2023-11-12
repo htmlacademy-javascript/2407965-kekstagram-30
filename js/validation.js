@@ -21,11 +21,12 @@ pristine.addValidator(formHashTags, (value) => {
 
 // submit event handler
 form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
   const isValid = pristine.validate();
   if (isValid) {
     console.log('Можно отправлять');
   } else {
-    event.preventDefault();
     console.log('Форма не валидна!');
   }
 });

@@ -1,5 +1,5 @@
 import domVariables from './domVariables.js';
-import effectMapList from './EffectMapList.js';
+import effectMapList from './effectMapList.js';
 
 const {
   imgUploadPreviewContainer,
