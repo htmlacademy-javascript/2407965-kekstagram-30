@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/vendor/nouislider/nouislider.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кекстаграм</title>
 </head>
@@ -30,11 +31,18 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" autocomplete="off">
+          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" action="https://30.javascript.pages.academy/kekstagram" autocomplete="off">
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
-              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required>
+              <input type="file"
+                     id="upload-file"
+                     class="img-upload__input  visually-hidden"
+                     name="filename"
+                     accept=".png, .jpg, .jpeg, .svg"
+                     data-pristine-required-message="Обязательное поле"
+                     required
+              >
               <label for="upload-file" class="img-upload__label  img-upload__control">Загрузить</label>
             </fieldset>
 
@@ -56,9 +64,9 @@
                   </div>
 
                   <!-- Изменение глубины эффекта, накладываемого на изображение -->
-                  <fieldset class="img-upload__effect-level  effect-level">
-                    <input class="effect-level__value" type="number" step="any" name="effect-level" value="">
-                    <div class="effect-level__slider"></div>
+                  <fieldset class="img-upload__effect-level  effect-level  hidden">
+                    <input class="effect-level__value" type="number" name="effect-level" value="100" title="Effect Level">
+                    <div class="effect-level__slider" id="slider"></div>
                   </fieldset>
 
                   <!-- Кнопка для закрытия формы редактирования изображения -->
@@ -116,10 +124,19 @@
                 <!-- Добавление хэш-тегов и комментария к изображению -->
                 <fieldset class="img-upload__text text">
                   <div class="img-upload__field-wrapper">
-                    <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
+                    <input class="text__hashtags"
+                           name="hashtags"
+                           placeholder="#ХэшТег"
+                           data-pristine-required-message="Обязательное поле"
+                           data-pristine-minlength-message="Минимальная длина 3 символа"
+                           data-pristine-maxlength-message="Максимальная длина 20 символов"
+                           minlength="3"
+                           maxlength="20"
+                           required
+                    >
                   </div>
                   <div class="img-upload__field-wrapper">
-                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
+                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..." maxlength="140"></textarea>
                   </div>
                 </fieldset>
 
@@ -233,6 +250,10 @@
         <h2 class="data-error__title">Не удалось загрузить данные</h2>
       </section>
     </template>
+
+    <script src="vendor/pristine/pristine.min.js"></script>
+    <script src="vendor/nouislider/nouislider.js"></script>
+    <script src="js/main.js" type="module"></script>
 
 </body>
 </html>
