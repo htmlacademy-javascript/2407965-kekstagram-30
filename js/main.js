@@ -1,6 +1,6 @@
 import effectLevelChanger from './effectLevelChanger.js';
 import domVariables from './domVariables.js';
-import './validatation.js';
+import './validation.js';
 
 const {
   body,
