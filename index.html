@@ -31,7 +31,13 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" action="https://30.javascript.pages.academy/kekstagram" autocomplete="off">
+          <form class="img-upload__form"
+                id="upload-select-image"
+                method="post"
+                enctype="multipart/form-data"
+                action="https://30.javascript.pages.academy/kekstagram"
+                autocomplete="off"
+          >
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
@@ -54,7 +60,13 @@
                   <!-- Изменение размера изображения -->
                   <fieldset class="img-upload__scale  scale">
                     <button type="button" class="scale__control  scale__control--smaller">Уменьшить</button>
-                    <input type="text" class="scale__control  scale__control--value" value="100%" title="Image Scale" name="scale" readonly>
+                    <input type="text"
+                           class="scale__control  scale__control--value"
+                           value="100%"
+                           title="Image Scale"
+                           name="scale"
+                           readonly
+                    >
                     <button type="button" class="scale__control  scale__control--bigger">Увеличить</button>
                   </fieldset>
 
@@ -65,7 +77,12 @@
 
                   <!-- Изменение глубины эффекта, накладываемого на изображение -->
                   <fieldset class="img-upload__effect-level  effect-level  hidden">
-                    <input class="effect-level__value" type="number" name="effect-level" value="100" title="Effect Level">
+                    <input class="effect-level__value"
+                           type="number"
+                           name="effect-level"
+                           value="100"
+                           title="Effect Level"
+                    >
                     <div class="effect-level__slider" id="slider"></div>
                   </fieldset>
 
@@ -129,14 +146,17 @@
                            placeholder="#ХэшТег"
                            data-pristine-required-message="Обязательное поле"
                            data-pristine-minlength-message="Минимальная длина 3 символа"
-                           data-pristine-maxlength-message="Максимальная длина 20 символов"
                            minlength="3"
-                           maxlength="20"
                            required
                     >
                   </div>
                   <div class="img-upload__field-wrapper">
-                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..." maxlength="140"></textarea>
+                    <textarea class="text__description"
+                              name="description"
+                              placeholder="Ваш комментарий..."
+                              data-pristine-maxlength-message="Комментарий не может иметь больше 140 символов!"
+                              maxlength="140"
+                    ></textarea>
                   </div>
                 </fieldset>
 
