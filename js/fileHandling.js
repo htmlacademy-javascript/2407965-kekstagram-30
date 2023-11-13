@@ -40,12 +40,12 @@ const cancelPreviewHandler = () => {
   body.classList.remove('modal-open');
   URL.revokeObjectURL(imageURL);
 
-  for (const radioBtn of effectsRadioBtns) {
-    if (radioBtn.hasAttribute('checked')) {
-      radioBtn.removeAttribute('checked');
+  for (let i = 0; i < effectsRadioBtns.length; ++i) {
+    effectsRadioBtns[i].removeAttribute('checked');
+    if (i === 0) {
+      effectsRadioBtns[i].setAttribute('checked', '');
     }
   }
-  effectsRadioBtns[0].setAttribute('checked', '');
 };
 
 // keydown handler function
