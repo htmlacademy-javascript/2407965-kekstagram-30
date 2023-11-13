@@ -54,13 +54,22 @@ const effectLevelChanger = () => {
               imgUploadPreviewContainer.removeAttribute('style');
               break;
             case 'blur':
-              imgUploadPreviewContainer.setAttribute('style', `filter: ${effectNameList[i]}(${effectValue}px)`);
+              imgUploadPreviewContainer.setAttribute(
+                'style',
+                `filter: ${effectNameList[i]}(${effectValue}px)`
+              );
               break;
             case 'invert':
-              imgUploadPreviewContainer.setAttribute('style', `filter: ${effectNameList[i]}(${effectValue}%)`);
+              imgUploadPreviewContainer.setAttribute(
+                'style',
+                `filter: ${effectNameList[i]}(${effectValue}%)`
+              );
               break;
             default:
-              imgUploadPreviewContainer.setAttribute('style', `filter: ${effectNameList[i]}(${effectValue})`);
+              imgUploadPreviewContainer.setAttribute(
+                'style',
+                `filter: ${effectNameList[i]}(${effectValue})`
+              );
               break;
           }
 
