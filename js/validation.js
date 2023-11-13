@@ -6,7 +6,7 @@ const defaultConfig = {
 
 const form = document.querySelector('.img-upload__form');
 const formHashTags = document.querySelector('.text__hashtags');
-const formDescription = document.querySelector('.text__description');
+//const formDescription = document.querySelector('.text__description');
 
 const pristine = new Pristine(form, defaultConfig);
 
@@ -21,12 +21,11 @@ pristine.addValidator(formHashTags, (value) => {
 
 // submit event handler
 form.addEventListener('submit', (event) => {
-  event.preventDefault();
-
   const isValid = pristine.validate();
   if (isValid) {
-    console.log('Можно отправлять');
+    //console.log('Можно отправлять');
   } else {
-    console.log('Форма не валидна!');
+    event.preventDefault();
+    //console.log('Форма не валидна!');
   }
 });
