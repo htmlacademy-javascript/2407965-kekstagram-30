@@ -29,12 +29,12 @@ const handleFiles = () => {
 // cancelling preview
 const cancelPreviewHandler = () => {
   uploadImgInput.value = '';
-
   imgUploadPreview.src = '';
+
   imgUploadPreview.removeAttribute('style');
+  imgUploadPreviewContainer.removeAttribute('style');
 
   imgUploadEffectLevelContainer.classList.add('hidden');
-  imgUploadPreviewContainer.removeAttribute('style');
   imgUploadOverlay.classList.add('hidden');
 
   body.classList.remove('modal-open');
