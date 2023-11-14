@@ -11,7 +11,10 @@ const domVariables = {
   effectsRadioBtns: document.querySelectorAll('.effects__radio'),
   effectLevelValueInput: document.querySelector('.effect-level__value'),
   effectLevelValueSlider: document.querySelector('.effect-level__slider'),
-  imgUploadEffectLevelContainer: document.querySelector('.img-upload__effect-level')
+  imgUploadEffectLevelContainer: document.querySelector('.img-upload__effect-level'),
+  form: document.querySelector('.img-upload__form'),
+  formHashTags: document.querySelector('.text__hashtags'),
+  formDescription: document.querySelector('.text__description')
 };
 
 export default domVariables;
