@@ -39,7 +39,11 @@ pristine.addValidator(formHashTags, (value) => {
   const test4 = regexPatternChecker(/^#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}\s#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}\s#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}\s#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}$/i, value);
   const test5 = regexPatternChecker(/^#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}\s#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}\s#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}\s#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}\s#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}$/i, value);
 
-  const isValid = test0 || test1 || test2 || test3 || test4 || test5;
+  const hashTagsArray = value.split(' ');
+  const uniqueTags = new Set(hashTagsArray);
+  const test6 = hashTagsArray.length === uniqueTags.size && hashTagsArray.every((tag) => /^#[a-zа-яёA-ZА-ЯЁ0-9]{1,19}$/i.test(tag));
+
+  const isValid = test0 || test1 || test2 || test3 || test4 || test5 || test6;
   if (isValid) {
     return true;
   }
