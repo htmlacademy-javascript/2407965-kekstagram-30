@@ -11,6 +11,9 @@ const {
   imgUploadEffectLevelContainer,
 } = domVariables;
 
+const formHashTags = document.querySelector('.text__hashtags');
+const formDescription = document.querySelector('.text__description');
+
 // handling files
 let imageURL;
 const handleFiles = () => {
@@ -28,22 +31,30 @@ const handleFiles = () => {
 
 // cancelling preview
 const cancelPreviewHandler = () => {
-  uploadImgInput.value = '';
-  imgUploadPreview.src = '';
+  const closePreview = () => {
+    uploadImgInput.value = '';
+    imgUploadPreview.src = '';
 
-  imgUploadPreview.removeAttribute('style');
-  imgUploadPreviewContainer.removeAttribute('style');
+    imgUploadPreview.removeAttribute('style');
+    imgUploadPreviewContainer.removeAttribute('style');
 
-  imgUploadEffectLevelContainer.classList.add('hidden');
-  imgUploadOverlay.classList.add('hidden');
+    imgUploadEffectLevelContainer.classList.add('hidden');
+    imgUploadOverlay.classList.add('hidden');
 
-  body.classList.remove('modal-open');
-  URL.revokeObjectURL(imageURL);
+    body.classList.remove('modal-open');
+    URL.revokeObjectURL(imageURL);
 
-  for (let i = 0; i < effectsRadioBtns.length; ++i) {
-    effectsRadioBtns[i].removeAttribute('checked');
-    if (i === 0) {
-      effectsRadioBtns[i].setAttribute('checked', '');
+    for (let i = 0; i < effectsRadioBtns.length; ++i) {
+      effectsRadioBtns[i].removeAttribute('checked');
+      if (i === 0) {
+        effectsRadioBtns[i].setAttribute('checked', '');
+      }
+    }
+  };
+
+  if (!formHashTags.classList.contains('focused')) {
+    if (!formDescription.classList.contains('focused')) {
+      closePreview();
     }
   }
 };
