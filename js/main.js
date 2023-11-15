@@ -1,7 +1,4 @@
 import './eventListeners.js';
-import effectLevelChanger from './effectLevelChanger.js';
+import './effectLevelChanger.js';
 import './validation.js';
-
-(() => {
-  effectLevelChanger();
-})();
+import './imgFilters.js';
