@@ -14,7 +14,9 @@ const domVariables = {
   imgUploadEffectLevelContainer: document.querySelector('.img-upload__effect-level'),
   form: document.querySelector('.img-upload__form'),
   formHashTags: document.querySelector('.text__hashtags'),
-  formDescription: document.querySelector('.text__description')
+  formDescription: document.querySelector('.text__description'),
+  imgFiltersBtn: document.querySelectorAll('.img-filters__button'),
+  imgFilters: document.querySelector('.img-filters')
 };
 
 export default domVariables;
