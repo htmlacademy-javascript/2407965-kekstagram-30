@@ -9,10 +9,9 @@ const {
   imgUploadPreviewContainer,
   effectsRadioBtns,
   imgUploadEffectLevelContainer,
+  formHashTags,
+  formDescription
 } = domVariables;
-
-const formHashTags = document.querySelector('.text__hashtags');
-const formDescription = document.querySelector('.text__description');
 
 // handling files
 let imageURL;
@@ -35,6 +34,9 @@ const cancelPreviewHandler = () => {
     uploadImgInput.value = '';
     imgUploadPreview.src = '';
 
+    formHashTags.value = '';
+    formDescription.value = '';
+
     imgUploadPreview.removeAttribute('style');
     imgUploadPreviewContainer.removeAttribute('style');
 
@@ -54,6 +56,21 @@ const cancelPreviewHandler = () => {
 
   if (!formHashTags.classList.contains('focused')) {
     if (!formDescription.classList.contains('focused')) {
+      closePreview();
+    }
+  }
+
+  const successTemplate = document.querySelector('.success-template');
+  const errorTemplate = document.querySelector('.error-template');
+
+  if (successTemplate) {
+    if (body.contains(successTemplate)) {
+      closePreview();
+    }
+  }
+
+  if (errorTemplate) {
+    if (body.contains(errorTemplate)) {
       closePreview();
     }
   }
