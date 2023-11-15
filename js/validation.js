@@ -2,7 +2,6 @@ import domVariables from './domVariables.js';
 import { cancelPreviewHandler } from './fileHandling.js';
 
 const {
-  body,
   form,
   formHashTags,
   formDescription
