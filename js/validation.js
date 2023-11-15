@@ -1,6 +1,8 @@
 import domVariables from './domVariables.js';
+import { cancelPreviewHandler } from './fileHandling.js';
 
 const {
+  body,
   form,
   formHashTags,
   formDescription
@@ -50,14 +52,70 @@ pristine.addValidator(formHashTags, (value) => {
   }
 }, 'Ваш хеш-тег может содержать только буквы и цифры, пробелы и спецсимволы запрещены использоваться! Хештеги разделяются пробелами и максимальное их кол-во 5! один и тот же хэш-тег не может быть использован дважды, несмотря на их регистр!  Один Хештег может содержать максимум 20 символов.');
 
+const createTemplateClone = (id) => {
+  let className;
+  if (id[0] === '#') {
+    className = `${id.replace('#', ' ').trim()}-template`;
+  } else {
+    className = `${id}-template`;
+  }
+
+  const template = document.querySelector(id);
+  const clone = document.createElement('div');
+  clone.setAttribute('class', className);
+  clone.innerHTML = template.innerHTML;
+
+  return clone;
+};
+
+const appendTemplate = (selector, child) => {
+  const parentElement = document.querySelector(selector);
+  parentElement.appendChild(child);
+};
+
+const removeTemplate = (selector) => {
+  const template = document.querySelector(selector);
+  template.remove();
+};
+
+// success popup
+const successState = () => appendTemplate('body', createTemplateClone('#success'));
+const closeSuccessState = () => removeTemplate('.success-template');
+// end of success popup
+
+// failure popup
+const failureState = () => appendTemplate('body', createTemplateClone('#error'));
+const closeFailureState = () => removeTemplate('.error-template');
+// end of failure popup
+
 // submit event handler
 form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
   const isValid = pristine.validate();
   if (isValid) {
-    //console.log('Можно отправлять');
+    successState();
+    const successCloseBtn = document.querySelector('.success__button');
+    successCloseBtn.addEventListener('click', closeSuccessState);
+    successCloseBtn.addEventListener('click', cancelPreviewHandler);
+    document.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Escape') {
+        closeSuccessState();
+        cancelPreviewHandler();
+      }
+    });
+    return true;
   } else {
-    event.preventDefault();
-    // write code that will popup the error messages if there was the error with submitting form
-    //console.log('Форма не валидна!');
+    failureState();
+    const failureCloseBtn = document.querySelector('.error__button');
+    failureCloseBtn.addEventListener('click', closeFailureState);
+    document.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Escape') {
+        closeFailureState();
+      }
+    });
+    return false;
   }
 });
+
+export { createTemplateClone, removeTemplate };
