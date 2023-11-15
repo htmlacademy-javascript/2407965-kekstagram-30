@@ -84,5 +84,4 @@ const effectLevelChanger = () => {
     effectsRadioBtns[i].addEventListener('click', radioClickHandler);
   }
 };
-
-export default effectLevelChanger;
+effectLevelChanger();
