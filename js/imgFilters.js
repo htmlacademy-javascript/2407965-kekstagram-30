@@ -13,22 +13,45 @@ async function getData(url) {
   return response.json();
 }
 
+const createUniqueSet = (numbersArr) => {
+  const uniqueNumbers = new Set();
+
+  for (let i = 0; i < numbersArr.length; ++i) {
+    uniqueNumbers.add(numbersArr[i]);
+  }
+
+  return uniqueNumbers;
+};
+
 const showContent = (id) => {
   for (let i = 0; i < imgFiltersBtn.length; ++i) {
     if (id === imgFiltersBtn[i].id) {
       imgFiltersBtn[i].classList.add('img-filters__button--active');
-      const postData = getData('https://30.javascript.pages.academy/kekstagram/data');
-      postData
+      const postsData = getData('https://30.javascript.pages.academy/kekstagram/data');
+      postsData
         .then((posts) => {
           const picturesContainer = document.querySelector('.pictures');
-          //const postsLength = posts.length;
-          //const random10 = Math.floor(Math.random() * 10) + 1;
-          let commentsSum = 0;
-          let postsSum = 0;
-          let mean = 0; // average number of posts
-          // let min = 0;
-          // let max = 0;
-          // let range = 0;
+          const postsIdList = [];
+          const random10 = [];
+          //const postsClone = [...posts];
+
+          for (let j = 0; j < posts.length; ++j) {
+            postsIdList.push(posts[j].id);
+          }
+
+          for (let j = 0; j < postsIdList.length; ++j) {
+            const randomNumber = Math.floor(Math.random() * postsIdList.length) + 1;
+            random10.push(randomNumber);
+          }
+
+          const uniqueNumbersSet = createUniqueSet(random10);
+          const uniqueNumbersArray = [];
+          if (uniqueNumbersSet.size >= 10) {
+            for (const uniqueNumber of uniqueNumbersSet.keys()) {
+              uniqueNumbersArray.push(uniqueNumber);
+            }
+            uniqueNumbersArray.splice(10, uniqueNumbersArray.length - 10);
+          }
 
           for (let j = 0; j < posts.length; ++j) {
             const templatePicture = createTemplateClone('#picture');
@@ -36,41 +59,45 @@ const showContent = (id) => {
             const templatePicCommentAmount = templatePicture.children[0].children[1].children[0];
             const templatePicLikes = templatePicture.children[0].children[1].children[1];
 
-            const generateHTML = () => {
+            const generateHTML = (index) => {
               templatePicImg.setAttribute('loading', 'lazy');
-              templatePicImg.setAttribute('src', posts[j].url);
-              templatePicCommentAmount.textContent = posts[j].comments.length;
-              templatePicLikes.textContent = posts[j].likes;
+              templatePicImg.setAttribute('src', posts[index].url);
+              templatePicCommentAmount.textContent = posts[index].comments.length;
+              templatePicLikes.textContent = posts[index].likes;
             };
 
             switch (id) {
               case 'filter-default':
-                generateHTML();
+                generateHTML(j);
                 picturesContainer.appendChild(templatePicture);
                 break;
               case 'filter-random':
-                generateHTML();
+                generateHTML(uniqueNumbersArray[j]);
+                picturesContainer.appendChild(templatePicture);
+                if (j === uniqueNumbersArray.length) {
+                  break;
+                }
                 break;
               case 'filter-discussed':
-                commentsSum += posts[j].comments.length;
-                postsSum = j;
-                mean = (commentsSum / postsSum).toFixed(0);
-                if (posts[j].comments.length > mean) {
-                  // generateHTML();
-                  // picturesContainer.appendChild(templatePicture);
-                }
-                // min = Math.min(posts[j].comments.length);
-                // max = Math.max(posts[j].comments.length);
-                // range = Math.max(posts[j].comments.length) - Math.min(posts[j].comments.length);
                 break;
             }
           }
 
-          //console.log('Posts: ' + postsSum + '\n' + 'Comments sum: ' + commentsSum + '\n' + 'Mean: ' + mean + '\n' + '[min][max][range]: ' + min + ' ' + max + ' ' + range + '\n');
+          if (id === 'filter-random') {
+            //console.log(uniqueNumbersArray.length, uniqueNumbersSet.size);
+            for (let z = uniqueNumbersSet.size; z > 0; --z) {
+              picturesContainer.children[z].remove();
+              if (z <= 11) {
+                break;
+              }
+            }
+          }
+
+          //console.log(uniqueNumbersSet, uniqueNumbersArray);
         });
     } else {
       imgFiltersBtn[i].classList.remove('img-filters__button--active');
-      const templatePictures = document.querySelectorAll('.picture-template');
+      const templatePictures = document.querySelectorAll('.picture');
       templatePictures.forEach((el) => el.remove());
     }
   }
@@ -78,7 +105,9 @@ const showContent = (id) => {
 
 setTimeout(() => {
   showContent(imgFiltersBtn[0].id);
-}, 10);
+}, 100);
 for (let i = 0; i < imgFiltersBtn.length; ++i) {
-  imgFiltersBtn[i].addEventListener('click', () => showContent(imgFiltersBtn[i].id));
+  imgFiltersBtn[i].addEventListener('click', () => setTimeout(() => {
+    showContent(imgFiltersBtn[i].id);
+  }, 100));
 }
