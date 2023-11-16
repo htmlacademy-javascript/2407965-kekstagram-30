@@ -16,7 +16,9 @@ const domVariables = {
   formHashTags: document.querySelector('.text__hashtags'),
   formDescription: document.querySelector('.text__description'),
   imgFiltersBtn: document.querySelectorAll('.img-filters__button'),
-  imgFilters: document.querySelector('.img-filters')
+  imgFilters: document.querySelector('.img-filters'),
+  successTemplate: document.querySelector('.success-template'),
+  failureTemplate: document.querySelector('.error-template')
 };
 
 export default domVariables;
