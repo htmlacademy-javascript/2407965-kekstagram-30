@@ -56,22 +56,25 @@ const cancelPreviewHandler = () => {
 
   if (!formHashTags.classList.contains('focused')) {
     if (!formDescription.classList.contains('focused')) {
-      closePreview();
-    }
-  }
+      const successTemplate = document.querySelector('.success-template');
+      const errorTemplate = document.querySelector('.error-template');
 
-  const successTemplate = document.querySelector('.success-template');
-  const errorTemplate = document.querySelector('.error-template');
+      if (successTemplate || errorTemplate) {
+        if (body.contains(successTemplate)) {
+          closePreview();
+          successTemplate.remove();
+        } else {
+          closePreview();
+        }
 
-  if (successTemplate) {
-    if (body.contains(successTemplate)) {
-      closePreview();
-    }
-  }
-
-  if (errorTemplate) {
-    if (body.contains(errorTemplate)) {
-      closePreview();
+        if (body.contains(errorTemplate)) {
+          errorTemplate.remove();
+        } else {
+          closePreview();
+        }
+      } else {
+        closePreview();
+      }
     }
   }
 };
