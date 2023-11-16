@@ -4,7 +4,7 @@ import { cancelPreviewHandler } from './fileHandling.js';
 const {
   form,
   formHashTags,
-  formDescription
+  formDescription,
 } = domVariables;
 
 const defaultConfig = {
@@ -52,17 +52,12 @@ pristine.addValidator(formHashTags, (value) => {
 }, 'Ваш хеш-тег может содержать только буквы и цифры, пробелы и спецсимволы запрещены использоваться! Хештеги разделяются пробелами и максимальное их кол-во 5! один и тот же хэш-тег не может быть использован дважды, несмотря на их регистр!  Один Хештег может содержать максимум 20 символов.');
 
 const createTemplateClone = (id) => {
-  let className;
-  if (id[0] === '#') {
-    className = `${id.replace('#', ' ').trim()}-template`;
-  } else {
-    className = `${id}-template`;
+  if (id[0] !== '#') {
+    throw TypeError('id parameter should have # at the first index, because it specifies html id attribute value');
   }
 
   const template = document.querySelector(id);
-  const clone = document.createElement('div');
-  clone.setAttribute('class', className);
-  clone.innerHTML = template.innerHTML;
+  const clone = template.content.cloneNode(true);
 
   return clone;
 };
@@ -74,17 +69,19 @@ const appendTemplate = (selector, child) => {
 
 const removeTemplate = (selector) => {
   const template = document.querySelector(selector);
-  template.remove();
+  if (template) {
+    template.remove();
+  }
 };
 
 // success popup
 const successState = () => appendTemplate('body', createTemplateClone('#success'));
-const closeSuccessState = () => removeTemplate('.success-template');
+const closeSuccessState = () => removeTemplate('.success');
 // end of success popup
 
 // failure popup
 const failureState = () => appendTemplate('body', createTemplateClone('#error'));
-const closeFailureState = () => removeTemplate('.error-template');
+const closeFailureState = () => removeTemplate('.error');
 // end of failure popup
 
 // submit event handler
@@ -95,24 +92,29 @@ form.addEventListener('submit', (event) => {
   if (isValid) {
     successState();
     const successCloseBtn = document.querySelector('.success__button');
-    successCloseBtn.addEventListener('click', closeSuccessState);
-    successCloseBtn.addEventListener('click', cancelPreviewHandler);
-    document.addEventListener('keydown', (evt) => {
-      if (evt.key === 'Escape') {
-        closeSuccessState();
-        cancelPreviewHandler();
-      }
-    });
+    if (successCloseBtn) {
+      successCloseBtn.addEventListener('click', closeSuccessState);
+      successCloseBtn.addEventListener('click', cancelPreviewHandler);
+      document.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+          closeSuccessState();
+          cancelPreviewHandler();
+        }
+      });
+    }
     return true;
   } else {
     failureState();
     const failureCloseBtn = document.querySelector('.error__button');
-    failureCloseBtn.addEventListener('click', closeFailureState);
-    document.addEventListener('keydown', (evt) => {
-      if (evt.key === 'Escape') {
-        closeFailureState();
-      }
-    });
+    if (failureCloseBtn) {
+      failureCloseBtn.addEventListener('click', closeFailureState);
+      document.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+          closeFailureState();
+          cancelPreviewHandler();
+        }
+      });
+    }
     return false;
   }
 });
