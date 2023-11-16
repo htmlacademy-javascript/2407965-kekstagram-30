@@ -13,16 +13,6 @@ async function getData(url) {
   return response.json();
 }
 
-const createUniqueSet = (numbersArr) => {
-  const uniqueNumbers = new Set();
-
-  for (let i = 0; i < numbersArr.length; ++i) {
-    uniqueNumbers.add(numbersArr[i]);
-  }
-
-  return uniqueNumbers;
-};
-
 const showContent = (id) => {
   for (let i = 0; i < imgFiltersBtn.length; ++i) {
     if (id === imgFiltersBtn[i].id) {
@@ -32,25 +22,14 @@ const showContent = (id) => {
         .then((posts) => {
           const picturesContainer = document.querySelector('.pictures');
           const postsIdList = [];
-          const random10 = [];
-          //const postsClone = [...posts];
 
           for (let j = 0; j < posts.length; ++j) {
             postsIdList.push(posts[j].id);
           }
 
-          for (let j = 0; j < postsIdList.length; ++j) {
-            const randomNumber = Math.floor(Math.random() * postsIdList.length) + 1;
-            random10.push(randomNumber);
-          }
-
-          const uniqueNumbersSet = createUniqueSet(random10);
-          const uniqueNumbersArray = [];
-          if (uniqueNumbersSet.size >= 10) {
-            for (const uniqueNumber of uniqueNumbersSet.keys()) {
-              uniqueNumbersArray.push(uniqueNumber);
-            }
-            uniqueNumbersArray.splice(10, uniqueNumbersArray.length - 10);
+          for (let j = postsIdList.length - 1; j > 0; j--) {
+            const random = Math.floor(Math.random() * (j + 1));
+            [postsIdList[j], postsIdList[random]] = [postsIdList[random], postsIdList[j]];
           }
 
           for (let j = 0; j < posts.length; ++j) {
@@ -72,11 +51,8 @@ const showContent = (id) => {
                 picturesContainer.appendChild(templatePicture);
                 break;
               case 'filter-random':
-                generateHTML(uniqueNumbersArray[j]);
+                generateHTML(postsIdList[j]);
                 picturesContainer.appendChild(templatePicture);
-                if (j === uniqueNumbersArray.length) {
-                  break;
-                }
                 break;
               case 'filter-discussed':
                 break;
@@ -84,16 +60,14 @@ const showContent = (id) => {
           }
 
           if (id === 'filter-random') {
-            //console.log(uniqueNumbersArray.length, uniqueNumbersSet.size);
-            for (let z = uniqueNumbersSet.size; z > 0; --z) {
-              picturesContainer.children[z].remove();
-              if (z <= 11) {
+            const pictures = document.querySelectorAll('.picture');
+            for (let j = 0; j < pictures.length; ++j) {
+              pictures[j].remove();
+              if (j === 14) {
                 break;
               }
             }
           }
-
-          //console.log(uniqueNumbersSet, uniqueNumbersArray);
         });
     } else {
       imgFiltersBtn[i].classList.remove('img-filters__button--active');
@@ -103,9 +77,7 @@ const showContent = (id) => {
   }
 };
 
-setTimeout(() => {
-  showContent(imgFiltersBtn[0].id);
-}, 100);
+setTimeout(() => showContent(imgFiltersBtn[0].id), 100);
 for (let i = 0; i < imgFiltersBtn.length; ++i) {
   imgFiltersBtn[i].addEventListener('click', () => setTimeout(() => {
     showContent(imgFiltersBtn[i].id);
