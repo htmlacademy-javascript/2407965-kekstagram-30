@@ -2,8 +2,25 @@ import domVariables from './domVariables.js';
 import { createTemplateClone } from './validation.js';
 
 const {
+  body,
   imgFilters,
-  imgFiltersBtn
+  imgFiltersBtn,
+  bigPictureOverlay,
+  bigPictureCancelBtn,
+  bigPictureImg,
+  socialPicture,
+  socialCaption,
+  likesCount,
+  socialCommentShownCount,
+  socialCommentTotalCount,
+  socialCommentsList,
+  socialComment,
+  socialCommentAvatar,
+  socialCommentText,
+  socialCommentsLoader,
+  socialCurrentUserAvatar,
+  socialCurrentUserComment,
+  socialCurrentUserPostComment
 } = domVariables;
 
 imgFilters.classList.remove('img-filters--inactive');
@@ -18,8 +35,41 @@ const showContent = (id) => {
     if (id === imgFiltersBtn[i].id) {
       imgFiltersBtn[i].classList.add('img-filters__button--active');
       const postsData = getData('https://30.javascript.pages.academy/kekstagram/data');
+
       postsData
         .then((posts) => {
+          const imgPreviewHandle = (currentIndex) => {
+            const pictures = document.querySelectorAll('.picture');
+            const imgPreview = () => {
+              const openBigPicture = () => {
+                body.classList.add('modal-open');
+                bigPictureOverlay.classList.remove('hidden');
+              };
+
+              const hideBigPicture = () => {
+                body.classList.remove('modal-open');
+                bigPictureOverlay.classList.add('hidden');
+              };
+
+              bigPictureCancelBtn.addEventListener('click', hideBigPicture);
+              document.addEventListener('keydown', (evt) => {
+                if (evt.key === 'Escape') {
+                  hideBigPicture();
+                }
+              });
+
+              for (let j = 0; j < pictures.length; ++j) {
+                pictures[j].addEventListener('click', () => {
+                  openBigPicture();
+                });
+                bigPictureImg.setAttribute('src', posts[currentIndex].url);
+              }
+            };
+            if (pictures) {
+              imgPreview();
+            }
+          };
+
           const picturesContainer = document.querySelector('.pictures');
           const postsIdList = [];
 
@@ -60,13 +110,22 @@ const showContent = (id) => {
           }
 
           if (id === 'filter-random') {
-            const pictures = document.querySelectorAll('.picture');
-            for (let j = 0; j < pictures.length; ++j) {
-              pictures[j].remove();
+            const picturesList = document.querySelectorAll('.picture');
+            for (let j = 0; j < picturesList.length; ++j) {
+              picturesList[j].remove();
               if (j === 14) {
                 break;
               }
             }
+
+            for (let j = 0; j < postsIdList.length; ++j) {
+              imgPreviewHandle(postsIdList[j]);
+            }
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            throw error;
           }
         });
     } else {
