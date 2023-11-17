@@ -25,6 +25,92 @@ const {
 
 imgFilters.classList.remove('img-filters--inactive');
 
+const openBigPicture = () => {
+  body.classList.add('modal-open');
+  bigPictureOverlay.classList.remove('hidden');
+};
+
+const hideBigPicture = () => {
+  body.classList.remove('modal-open');
+  bigPictureOverlay.classList.add('hidden');
+  likesCount.classList.remove('liked');
+  socialCommentsLoader.classList.remove('hidden');
+  socialCommentsLoader.textContent = 'Загрузить еще';
+};
+
+bigPictureCancelBtn.addEventListener('click', hideBigPicture);
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    hideBigPicture();
+  }
+});
+
+const like = (likeData) => {
+  if (!likesCount.classList.contains('liked')) {
+    likeData++;
+    likesCount.textContent++;
+    document.querySelector('.picture__likes').textContent++;
+    likesCount.classList.add('liked');
+  }
+};
+
+const loadAdditionalComments = (commentElements) => {
+  for (let i = 0; i < commentElements.length; ++i) {
+    if (i > 5) {
+      socialCommentsLoader.textContent = 'Это все!';
+      setTimeout(() => {
+        socialCommentsLoader.classList.add('hidden');
+      }, 3000);
+    }
+    commentElements[i].classList.remove('hidden');
+  }
+};
+
+const loadComments = (dataPosts, index) => {
+  socialCommentsList.innerHTML = '';
+  for (let z = 0; z < dataPosts[index].comments.length; ++z) {
+    const socialCommentClone = document.createElement('li');
+    socialCommentClone.setAttribute('class', 'social__comment');
+    socialCommentClone.innerHTML = `<img class="social__picture" src="${dataPosts[index].comments[z].avatar}" alt="Аватар комментатора фотографии" width="35" height="35">
+    <p class="social__text">${dataPosts[index].comments[z].message}</p>`;
+    socialCommentsList.appendChild(socialCommentClone);
+  }
+
+  const socialComments = document.querySelectorAll('.social__comment');
+  for (let z = 0; z < socialComments.length; ++z) {
+    if (z >= 5) {
+      socialComments[z].classList.add('hidden');
+    }
+  }
+
+  socialCommentsLoader.addEventListener('click', () => {
+    loadAdditionalComments(socialComments);
+  });
+};
+
+const setImgData = (picturesList, currentPictureURL, index, dataPosts) => {
+  if (currentPictureURL === dataPosts[index].url) {
+    bigPictureImg.setAttribute('src', dataPosts[index].url);
+    socialCaption.textContent = dataPosts[index].description;
+    likesCount.textContent = dataPosts[index].likes;
+    // loading comments
+    loadComments(dataPosts, index);
+
+    console.log(dataPosts[index]);
+  }
+};
+
+const loadBigPictureData = (index, picturesList, data) => {
+  openBigPicture(index);
+  const currentPicture = picturesList[index].children[0];
+  const currentPictureSrc = currentPicture.getAttribute('src');
+
+  for (let z = 0; z < data.length; ++z) {
+    setImgData(picturesList, currentPictureSrc, z, data);
+    likesCount.addEventListener('click', () => like(data[z].likes), {once:true});
+  }
+};
+
 async function getData(url) {
   const response = await fetch(url);
   return response.json();
@@ -38,38 +124,6 @@ const showContent = (id) => {
 
       postsData
         .then((posts) => {
-          const imgPreviewHandle = (currentIndex) => {
-            const pictures = document.querySelectorAll('.picture');
-            const imgPreview = () => {
-              const openBigPicture = () => {
-                body.classList.add('modal-open');
-                bigPictureOverlay.classList.remove('hidden');
-              };
-
-              const hideBigPicture = () => {
-                body.classList.remove('modal-open');
-                bigPictureOverlay.classList.add('hidden');
-              };
-
-              bigPictureCancelBtn.addEventListener('click', hideBigPicture);
-              document.addEventListener('keydown', (evt) => {
-                if (evt.key === 'Escape') {
-                  hideBigPicture();
-                }
-              });
-
-              for (let j = 0; j < pictures.length; ++j) {
-                pictures[j].addEventListener('click', () => {
-                  openBigPicture();
-                });
-                bigPictureImg.setAttribute('src', posts[currentIndex].url);
-              }
-            };
-            if (pictures) {
-              imgPreview();
-            }
-          };
-
           const picturesContainer = document.querySelector('.pictures');
           const postsIdList = [];
 
@@ -105,6 +159,8 @@ const showContent = (id) => {
                 picturesContainer.appendChild(templatePicture);
                 break;
               case 'filter-discussed':
+                generateHTML(j);
+                picturesContainer.appendChild(templatePicture);
                 break;
             }
           }
@@ -118,10 +174,30 @@ const showContent = (id) => {
               }
             }
 
-            for (let j = 0; j < postsIdList.length; ++j) {
-              imgPreviewHandle(postsIdList[j]);
+            for (let j = 0; j < picturesList.length; ++j) {
+              picturesList[j].addEventListener('click', () => {
+                loadBigPictureData(j, picturesList, posts);
+              });
+            }
+          } else if (id === 'filter-default') {
+            const picturesList = document.querySelectorAll('.picture');
+
+            for (let j = 0; j < picturesList.length; ++j) {
+              picturesList[j].addEventListener('click', () => {
+                loadBigPictureData(j, picturesList, posts);
+              });
+            }
+          } else if (id === 'filter-discussed') {
+            const picturesList = document.querySelectorAll('.picture');
+
+            for (let j = 0; j < picturesList.length; ++j) {
+              picturesList[j].addEventListener('click', () => {
+                loadBigPictureData(j, picturesList, posts);
+              });
             }
           }
+
+          console.log(posts);
         })
         .catch((error) => {
           if (error) {
