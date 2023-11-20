@@ -61,7 +61,7 @@ const filteringImages = {
     const filterAndSortImagesByCommentsCount = (dataPosts, minCommentsCount) => {
       const filteredImages = dataPosts.filter((image) => image.comments.length >= minCommentsCount);
 
-      filteredImages.sort((a, b) => b.comments.length - a.comments.length);
+      filteredImages.sort((min, max) => max.comments.length - min.comments.length);
 
       return filteredImages;
     };
