@@ -1,6 +1,7 @@
 import domVariables from './domVariables.js';
 import filteringImages from './filteringImages.js';
 import startPreviewing from './previewImages.js';
+import { appendTemplate, createTemplateClone, removeTemplate } from './validation.js';
 
 const {
   imgFilters,
@@ -48,6 +49,12 @@ const showContent = (id) => {
               }
               break;
           }
+        })
+        .catch(() => {
+          const destroyTimer = 5000;
+          const dataErrorTemplate = createTemplateClone('#data-error');
+          appendTemplate('body', dataErrorTemplate);
+          setTimeout(() => removeTemplate('.data-error'), destroyTimer);
         });
     } else {
       imgFiltersBtn[i].classList.remove('img-filters__button--active');
