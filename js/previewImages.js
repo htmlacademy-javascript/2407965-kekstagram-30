@@ -19,10 +19,18 @@ const previewImages = {
     bigPictureOverlay.classList.remove('hidden');
     this.loadImage(data, index, url);
   },
+  clearComments() {
+    const socialComments = document.querySelectorAll('.social__comment');
+    for (let i = 0; i < socialComments.length; ++i) {
+      socialComments[i].remove();
+    }
+    socialCommentShownCount.textContent = 0;
+  },
   closeBigPictureOverlay() {
     if (!socialCurrentUserComment.classList.contains('active')) {
       bigPictureOverlay.classList.add('hidden');
-      this.clearComments();
+
+      previewImages.clearComments();
     }
   },
   startEventListeners(data) {
@@ -112,13 +120,6 @@ const previewImages = {
   },
   loadImage(data, index, url) {
     this.setImageData(data, index, url);
-  },
-  clearComments() {
-    const socialComments = document.querySelectorAll('.social__comment');
-    for (let i = 0; i < socialComments.length; ++i) {
-      socialComments[i].remove();
-    }
-    socialCommentShownCount.textContent = 0;
   },
   loadAdditionalComments(index, socialComments) {
     if (socialComments[index].classList.contains('hidden')) {
