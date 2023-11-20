@@ -43,6 +43,7 @@ const cancelPreviewHandler = () => {
     imgUploadEffectLevelContainer.classList.add('hidden');
     imgUploadOverlay.classList.add('hidden');
 
+    setDefaultValueState();
     body.classList.remove('modal-open');
     URL.revokeObjectURL(imageURL);
 
@@ -56,21 +57,18 @@ const cancelPreviewHandler = () => {
 
   if (!formHashTags.classList.contains('focused')) {
     if (!formDescription.classList.contains('focused')) {
-      const successTemplate = document.querySelector('.success-template');
-      const errorTemplate = document.querySelector('.error-template');
+
+      const successTemplate = document.querySelector('.success');
+      const errorTemplate = document.querySelector('.error');
 
       if (successTemplate || errorTemplate) {
         if (body.contains(successTemplate)) {
           closePreview();
           successTemplate.remove();
-        } else {
-          closePreview();
         }
 
         if (body.contains(errorTemplate)) {
           errorTemplate.remove();
-        } else {
-          closePreview();
         }
       } else {
         closePreview();
@@ -79,18 +77,7 @@ const cancelPreviewHandler = () => {
   }
 };
 
-// keydown handler function
-const keydownHandler = (event) => {
-  // if there are more keys to handle,
-  // you can use switch statement!
-  if (event.key === 'Escape') {
-    cancelPreviewHandler();
-    setDefaultValueState();
-  }
-};
-
 export {
   handleFiles,
-  cancelPreviewHandler,
-  keydownHandler
+  cancelPreviewHandler
 };

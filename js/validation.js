@@ -4,7 +4,7 @@ import { cancelPreviewHandler } from './fileHandling.js';
 const {
   form,
   formHashTags,
-  formDescription,
+  formDescription
 } = domVariables;
 
 const defaultConfig = {
@@ -95,12 +95,6 @@ form.addEventListener('submit', (event) => {
     if (successCloseBtn) {
       successCloseBtn.addEventListener('click', closeSuccessState);
       successCloseBtn.addEventListener('click', cancelPreviewHandler);
-      document.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Escape') {
-          closeSuccessState();
-          cancelPreviewHandler();
-        }
-      });
     }
     return true;
   } else {
@@ -108,12 +102,6 @@ form.addEventListener('submit', (event) => {
     const failureCloseBtn = document.querySelector('.error__button');
     if (failureCloseBtn) {
       failureCloseBtn.addEventListener('click', closeFailureState);
-      document.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Escape') {
-          closeFailureState();
-          cancelPreviewHandler();
-        }
-      });
     }
     return false;
   }

@@ -19,6 +19,7 @@ const setDefaultValueState = () => {
 
 // sets value of scale
 const setControlValueState = () => {
+  scaleControlValue.value = `${scaleControlValueState}%`;
   scaleControlValue.setAttribute('value', `${scaleControlValueState}%`);
   imgUploadPreview.style['transform'] = `scale(${scaleControlValueState}%)`;
 };
