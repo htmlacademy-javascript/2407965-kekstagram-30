@@ -107,4 +107,4 @@ form.addEventListener('submit', (event) => {
   }
 });
 
-export { createTemplateClone, removeTemplate };
+export { createTemplateClone, removeTemplate, appendTemplate };
