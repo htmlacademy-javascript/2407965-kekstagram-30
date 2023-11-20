@@ -9,10 +9,10 @@ const {
 
 imgFilters.classList.remove('img-filters--inactive');
 
-async function getData(url) {
+const getData = async (url) => {
   const response = await fetch(url);
   return response.json();
-}
+};
 
 const showContent = (id) => {
   for (let i = 0; i < imgFiltersBtn.length; ++i) {
