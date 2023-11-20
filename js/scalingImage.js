@@ -11,6 +11,7 @@ let scaleControlValueState = 100;
 // sets default value for scale
 const setDefaultValueState = () => {
   scaleControlValue.value = '100%';
+  scaleControlValueState = 100;
 
   if (imgUploadPreview.hasAttribute('style')) {
     imgUploadPreview.removeAttribute('style');
