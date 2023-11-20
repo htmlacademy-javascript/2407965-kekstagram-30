@@ -1,22 +1,15 @@
 import domVariables from './domVariables.js';
 
 const {
-  picturesImg,
   bigPictureOverlay,
-  bigPicturePreview,
   bigPictureCancelBtn,
   bigPictureImg,
-  socialPicture,
   socialCaption,
   likesCount,
   socialCommentShownCount,
   socialCommentTotalCount,
   socialCommentsList,
-  socialComment,
-  socialCommentAvatar,
-  socialCommentText,
   socialCommentsLoader,
-  socialCurrentUserAvatar,
   socialCurrentUserComment,
   socialCurrentUserPostComment
 } = domVariables;
@@ -27,8 +20,10 @@ const previewImages = {
     this.loadImage(data, index, url);
   },
   closeBigPictureOverlay() {
-    bigPictureOverlay.classList.add('hidden');
-    this.clearComments();
+    if (!socialCurrentUserComment.classList.contains('active')) {
+      bigPictureOverlay.classList.add('hidden');
+      this.clearComments();
+    }
   },
   startEventListeners(data) {
     const pictures = document.querySelectorAll('.picture');
@@ -43,6 +38,17 @@ const previewImages = {
         this.loadPostedComment(data, i, currentImageURL);
       }
     }
+
+    likesCount.addEventListener('click', this.like, {once:true});
+    socialCurrentUserPostComment.addEventListener('click', this.postComment);
+
+    socialCurrentUserComment.addEventListener('focusin', (event) => event.target.classList.add('active'));
+    socialCurrentUserComment.addEventListener('focusout', (event) => event.target.classList.remove('active'));
+    socialCurrentUserComment.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        this.postComment();
+      }
+    });
 
     bigPictureCancelBtn.addEventListener('click', this.closeBigPictureOverlay);
     document.addEventListener('keydown', (evt) => {
@@ -95,33 +101,10 @@ const previewImages = {
   setImageData(data, index, url) {
     if (url === data[index].url) {
       this.setImageDatas(data, index);
-      likesCount.addEventListener('click', () => {
-        this.like(data, index);
-      }, {
-        once: true
-      });
-      socialCurrentUserPostComment.addEventListener('click', this.postComment(data, index));
     } else {
       for (let i = 0; i < data.length; ++i) {
         if (url === data[i].url) {
           this.setImageDatas(data, i);
-          likesCount.addEventListener('click', () => {
-            this.like(data, i);
-          }, {
-            once: true
-          });
-          socialCurrentUserPostComment.addEventListener('click', this.postComment(data, i));
-        }
-      }
-    }
-  },
-  loadPostedComment(data, index, url) {
-    if (url === data[index].url) {
-      socialCurrentUserPostComment.addEventListener('click', this.postComment(data, index));
-    } else {
-      for (let i = 0; i < data.length; ++i) {
-        if (url === data[i].url) {
-          socialCurrentUserPostComment.addEventListener('click', this.postComment(data, i));
         }
       }
     }
@@ -139,19 +122,13 @@ const previewImages = {
   loadAdditionalComments(index, socialComments) {
     if (socialComments[index].classList.contains('hidden')) {
       socialComments[index].classList.remove('hidden');
-      socialCommentShownCount.textContent = index + 1;
     }
+    socialCommentShownCount.textContent = index + 1;
   },
-  like(data, index) {
-    const picturesLikes = document.querySelectorAll('.picture__likes');
-    if (!picturesLikes[index].classList.contains('liked')) {
-      likesCount.textContent++;
-      picturesLikes[index].textContent++;
-      picturesLikes[index].classList.add('liked');
-      data[index].likes++;
-    }
+  like() {
+    likesCount.textContent++;
   },
-  postComment(data, index) {
+  postComment() {
     const comments = document.querySelectorAll('.social__comment');
     const message = socialCurrentUserComment.value;
 
@@ -167,21 +144,12 @@ const previewImages = {
       userComment.innerHTML = `<img class="social__picture" src="img/avatar-6.svg" alt="Аватар комментатора фотографии" width="35" height="35">
       <p class="social__text">${message}</p>`;
 
-      socialCommentsList.appendChild(userComment);
-
       socialCommentShownCount.textContent++;
       socialCommentTotalCount.textContent++;
 
+      socialCommentsList.appendChild(userComment);
+
       socialCurrentUserComment.value = '';
-
-      data[index].comments.push({
-        id: data[data[index].comments.length - 1].id + 1,
-        avatar: 'img/avatar-6.svg',
-        message: message,
-        name: 'Jaloliddin'
-      });
-
-      console.log(data[index].comments);
     }
   }
 };
@@ -189,8 +157,6 @@ const previewImages = {
 const startPreviewing = (data) => {
   previewImages.clearComments();
   previewImages.startEventListeners(data);
-
-  console.log(data);
 };
 
 export default startPreviewing;
