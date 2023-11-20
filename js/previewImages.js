@@ -18,6 +18,7 @@ const {
 const previewImages = {
   openBigPictureOverlay(data, index, url) {
     body.classList.add('modal-open');
+    socialCommentsLoader.classList.remove('hidden');
     bigPictureOverlay.classList.remove('hidden');
     this.loadImage(data, index, url);
   },
@@ -132,6 +133,7 @@ const previewImages = {
       socialComments[index].classList.remove('hidden');
     }
     socialCommentShownCount.textContent = index + 1;
+    socialCommentsLoader.classList.add('hidden');
   },
   like() {
     likesCount.textContent++;
