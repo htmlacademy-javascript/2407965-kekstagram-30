@@ -30,6 +30,7 @@ const filteringImages = {
 
     pictureTemplate.templatePicImg.setAttribute('loading', 'lazy');
     pictureTemplate.templatePicImg.setAttribute('src', data[index].url);
+    pictureTemplate.templatePicImg.setAttribute('alt', data[index].description);
     pictureTemplate.templatePicCommentCount.textContent = data[index].comments.length;
     pictureTemplate.templatePicLikesCount.textContent = data[index].likes;
 
