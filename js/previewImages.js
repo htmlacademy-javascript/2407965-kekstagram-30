@@ -106,6 +106,11 @@ const previewImages = {
     socialCommentTotalCount.textContent = data[index].comments.length;
 
     const comments = document.querySelectorAll('.social__comment');
+
+    if (comments.length <= 5) {
+      socialCommentsLoader.classList.add('hidden');
+    }
+
     socialCommentsLoader.addEventListener('click', () => {
       for (let i = 0; i < comments.length; ++i) {
         this.loadAdditionalComments(i, comments);
