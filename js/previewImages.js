@@ -1,6 +1,7 @@
 import domVariables from './domVariables.js';
 
 const {
+  body,
   bigPictureOverlay,
   bigPictureCancelBtn,
   bigPictureImg,
@@ -16,6 +17,7 @@ const {
 
 const previewImages = {
   openBigPictureOverlay(data, index, url) {
+    body.classList.add('modal-open');
     bigPictureOverlay.classList.remove('hidden');
     this.loadImage(data, index, url);
   },
@@ -31,6 +33,10 @@ const previewImages = {
       bigPictureOverlay.classList.add('hidden');
 
       previewImages.clearComments();
+    }
+
+    if (body.classList.contains('modal-open')) {
+      body.classList.remove('modal-open');
     }
   },
   startEventListeners(data) {
