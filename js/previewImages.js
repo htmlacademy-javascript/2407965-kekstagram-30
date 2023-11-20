@@ -33,10 +33,10 @@ const previewImages = {
       bigPictureOverlay.classList.add('hidden');
 
       previewImages.clearComments();
-    }
 
-    if (body.classList.contains('modal-open')) {
-      body.classList.remove('modal-open');
+      if (body.classList.contains('modal-open')) {
+        body.classList.remove('modal-open');
+      }
     }
   },
   startEventListeners(data) {
