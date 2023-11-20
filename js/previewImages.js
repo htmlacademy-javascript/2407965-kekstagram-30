@@ -39,7 +39,6 @@ const previewImages = {
       }
     }
 
-    likesCount.addEventListener('click', this.like, {once:true});
     socialCurrentUserPostComment.addEventListener('click', this.postComment);
 
     socialCurrentUserComment.addEventListener('focusin', (event) => event.target.classList.add('active'));
@@ -101,10 +100,12 @@ const previewImages = {
   setImageData(data, index, url) {
     if (url === data[index].url) {
       this.setImageDatas(data, index);
+      likesCount.addEventListener('click', this.like, {once:true});
     } else {
       for (let i = 0; i < data.length; ++i) {
         if (url === data[i].url) {
           this.setImageDatas(data, i);
+          likesCount.addEventListener('click', this.like, {once:true});
         }
       }
     }
