@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "vite --port 3000 --open",
+    "start": "vite --port 3000 --host --open",
     "lint": "eslint js/"
   },
   "engines": {
