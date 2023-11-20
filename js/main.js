@@ -1,5 +1,5 @@
 import './eventListeners.js';
 import './effectLevelChanger.js';
 import './validation.js';
-import './imgFiltration.js';
+import './renderImages.js';
 import './previewImages.js';
