@@ -10,7 +10,8 @@ const {
 
 const getData = async (url) => {
   const response = await fetch(url);
-  return response.json();
+  const data = response.json();
+  return data;
 };
 
 const showContent = (id) => {
@@ -23,30 +24,33 @@ const showContent = (id) => {
         .then((postsData) => {
           const posts = [...postsData];
           const postsIdList = [];
+          const loadTimeout = 500;
 
-          filteringImages.createIDList(posts, postsIdList);
-          filteringImages.randomizeIDList(postsIdList);
+          setTimeout(() => {
+            filteringImages.createIDList(posts, postsIdList);
+            filteringImages.randomizeIDList(postsIdList);
 
-          switch (id) {
-            case 'filter-default':
-              {
-                const defaultData = filteringImages.loadPictures(posts);
-                startPreviewing(defaultData);
-              }
-              break;
-            case 'filter-random':
-              {
-                filteringImages.loadRandomPictures(posts, postsIdList);
-                startPreviewing(posts);
-              }
-              break;
-            case 'filter-discussed':
-              {
-                const filteredData = filteringImages.loadDiscussedPictures(posts);
-                startPreviewing(filteredData);
-              }
-              break;
-          }
+            switch (id) {
+              case 'filter-default':
+                {
+                  const defaultData = filteringImages.loadPictures(posts);
+                  startPreviewing(defaultData);
+                }
+                break;
+              case 'filter-random':
+                {
+                  filteringImages.loadRandomPictures(posts, postsIdList);
+                  startPreviewing(posts);
+                }
+                break;
+              case 'filter-discussed':
+                {
+                  const filteredData = filteringImages.loadDiscussedPictures(posts);
+                  startPreviewing(filteredData);
+                }
+                break;
+            }
+          }, loadTimeout);
         })
         .catch(() => {
           const destroyTimer = 5000;
@@ -65,13 +69,7 @@ const showContent = (id) => {
   }
 };
 
-const TIMEOUT = 0;
-
-setTimeout(() => showContent(imgFiltersBtn[0].id), TIMEOUT);
+showContent(imgFiltersBtn[0].id);
 for (let i = 0; i < imgFiltersBtn.length; ++i) {
-  imgFiltersBtn[i].addEventListener('click', () => {
-    setTimeout(() => {
-      showContent(imgFiltersBtn[i].id);
-    }, TIMEOUT);
-  });
+  imgFiltersBtn[i].addEventListener('click', () => showContent(imgFiltersBtn[i].id));
 }
