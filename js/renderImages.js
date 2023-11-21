@@ -14,7 +14,7 @@ const getData = async (url) => {
   return data;
 };
 
-const showContent = (id) => {
+const renderImages = (id) => {
   for (let i = 0; i < imgFiltersBtn.length; ++i) {
     if (id === imgFiltersBtn[i].id) {
       imgFiltersBtn[i].classList.add('img-filters__button--active');
@@ -69,7 +69,7 @@ const showContent = (id) => {
   }
 };
 
-showContent(imgFiltersBtn[0].id);
+renderImages(imgFiltersBtn[0].id);
 for (let i = 0; i < imgFiltersBtn.length; ++i) {
-  imgFiltersBtn[i].addEventListener('click', () => showContent(imgFiltersBtn[i].id));
+  imgFiltersBtn[i].addEventListener('click', () => renderImages(imgFiltersBtn[i].id));
 }
