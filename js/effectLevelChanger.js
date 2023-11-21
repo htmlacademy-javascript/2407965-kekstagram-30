@@ -1,5 +1,6 @@
 import domVariables from './domVariables.js';
 import effectMapList from './effectMapList.js';
+import { setDefaultValueState } from './scalingImage.js';
 
 const {
   imgUploadPreviewContainer,
@@ -73,6 +74,7 @@ const effectLevelChanger = () => {
               break;
           }
 
+          setDefaultValueState();
           effectLevelValueInput.setAttribute('value', effectValue.toFixed(1));
         };
 
