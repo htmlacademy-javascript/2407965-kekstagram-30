@@ -20,8 +20,13 @@ const handleFiles = () => {
   body.classList.add('modal-open');
 
   for (let i = 0; i < uploadImgInput.files.length; ++i) {
+    const effectPreview = document.querySelectorAll('.effects__preview');
     imageURL = URL.createObjectURL(uploadImgInput.files[i]);
     imgUploadPreview.src = imageURL;
+    effectPreview.forEach((el) => {
+      el.setAttribute('style', `background-image:url(${imageURL});`);
+    });
+
     imgUploadPreview.onload = () => {
       URL.revokeObjectURL(imageURL);
     };
