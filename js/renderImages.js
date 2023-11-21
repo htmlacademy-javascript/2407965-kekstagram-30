@@ -8,8 +8,6 @@ const {
   imgFiltersBtn
 } = domVariables;
 
-imgFilters.classList.remove('img-filters--inactive');
-
 const getData = async (url) => {
   const response = await fetch(url);
   return response.json();
@@ -55,6 +53,9 @@ const showContent = (id) => {
           const dataErrorTemplate = createTemplateClone('#data-error');
           appendTemplate('body', dataErrorTemplate);
           setTimeout(() => removeTemplate('.data-error'), destroyTimer);
+        })
+        .finally(() => {
+          imgFilters.classList.remove('img-filters--inactive');
         });
     } else {
       imgFiltersBtn[i].classList.remove('img-filters__button--active');
@@ -64,7 +65,7 @@ const showContent = (id) => {
   }
 };
 
-const TIMEOUT = 500;
+const TIMEOUT = 0;
 
 setTimeout(() => showContent(imgFiltersBtn[0].id), TIMEOUT);
 for (let i = 0; i < imgFiltersBtn.length; ++i) {
