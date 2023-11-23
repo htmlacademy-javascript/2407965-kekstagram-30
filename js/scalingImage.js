@@ -12,10 +12,6 @@ let scaleControlValueState = 100;
 const setDefaultValueState = () => {
   scaleControlValue.value = '100%';
   scaleControlValueState = 100;
-
-  if (imgUploadPreview.hasAttribute('style')) {
-    imgUploadPreview.removeAttribute('style');
-  }
 };
 
 // sets value of scale
@@ -28,7 +24,7 @@ const setControlValueState = () => {
 // scales image smaller
 const scaleSmaller = () => {
   if (scaleControlValueState === 25) {
-    scaleControlValueState = 100;
+    scaleControlValueState = 25;
   } else {
     scaleControlValueState -= 25;
   }
@@ -39,7 +35,7 @@ const scaleSmaller = () => {
 // scales image bigger
 const scaleBigger = () => {
   if (scaleControlValueState === 100) {
-    scaleControlValueState = 25;
+    scaleControlValueState = 100;
   } else {
     scaleControlValueState += 25;
   }

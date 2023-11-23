@@ -7,6 +7,8 @@ const {
   formDescription
 } = domVariables;
 
+formDescription.setAttribute('max-length', 139);
+
 const defaultConfig = {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',

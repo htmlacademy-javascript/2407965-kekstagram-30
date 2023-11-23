@@ -3,12 +3,14 @@ import effectMapList from './effectMapList.js';
 import { setDefaultValueState } from './scalingImage.js';
 
 const {
-  imgUploadPreviewContainer,
+  imgUploadPreview,
   effectsRadioBtns,
   effectLevelValueInput ,
   effectLevelValueSlider,
   imgUploadEffectLevelContainer,
 } = domVariables;
+
+//const imgUploadPreview = document.querySelector('.img-upload__preview > img');
 
 // default slider config:
 let sliderConfig = {
@@ -52,22 +54,22 @@ const effectLevelChanger = () => {
 
           switch (effectNameList[i]) {
             case 'original':
-              imgUploadPreviewContainer.removeAttribute('style');
+              imgUploadPreview.removeAttribute('style');
               break;
             case 'blur':
-              imgUploadPreviewContainer.setAttribute(
+              imgUploadPreview.setAttribute(
                 'style',
                 `filter: ${effectNameList[i]}(${effectValue}px)`
               );
               break;
             case 'invert':
-              imgUploadPreviewContainer.setAttribute(
+              imgUploadPreview.setAttribute(
                 'style',
                 `filter: ${effectNameList[i]}(${effectValue}%)`
               );
               break;
             default:
-              imgUploadPreviewContainer.setAttribute(
+              imgUploadPreview.setAttribute(
                 'style',
                 `filter: ${effectNameList[i]}(${effectValue})`
               );
