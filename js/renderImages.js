@@ -17,14 +17,15 @@ const getData = async (url) => {
 const renderImages = (id) => {
   for (let i = 0; i < imgFiltersBtn.length; ++i) {
     if (id === imgFiltersBtn[i].id) {
+      imgFilters.classList.add('img-filters--inactive');
       imgFiltersBtn[i].classList.add('img-filters__button--active');
       const data = getData('https://30.javascript.pages.academy/kekstagram/data');
+      const loadTimeout = 500;
 
       data
         .then((postsData) => {
           const posts = [...postsData];
           const postsIdList = [];
-          const loadTimeout = 500;
 
           setTimeout(() => {
             filteringImages.createIDList(posts, postsIdList);
@@ -59,7 +60,7 @@ const renderImages = (id) => {
           setTimeout(() => removeTemplate('.data-error'), destroyTimer);
         })
         .finally(() => {
-          imgFilters.classList.remove('img-filters--inactive');
+          setTimeout(() => imgFilters.classList.remove('img-filters--inactive'), loadTimeout);
         });
     } else {
       imgFiltersBtn[i].classList.remove('img-filters__button--active');
