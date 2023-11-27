@@ -4,7 +4,8 @@ import { cancelPreviewHandler } from './fileHandling.js';
 const {
   form,
   formHashTags,
-  formDescription
+  formDescription,
+  imgUploadSubmitBtn
 } = domVariables;
 
 formDescription.setAttribute('max-length', 139);
@@ -86,25 +87,47 @@ const failureState = () => appendTemplate('body', createTemplateClone('#error'))
 const closeFailureState = () => removeTemplate('.error');
 // end of failure popup
 
+const success = () => {
+  successState();
+  const successCloseBtn = document.querySelector('.success__button');
+  if (successCloseBtn) {
+    successCloseBtn.addEventListener('click', closeSuccessState);
+    successCloseBtn.addEventListener('click', cancelPreviewHandler);
+  }
+};
+
+const failure = () => {
+  failureState();
+  const failureCloseBtn = document.querySelector('.error__button');
+  if (failureCloseBtn) {
+    failureCloseBtn.addEventListener('click', closeFailureState);
+  }
+};
+
 // submit event handler
-form.addEventListener('submit', (event) => {
+imgUploadSubmitBtn.addEventListener('click', (event) => {
   event.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
-    successState();
-    const successCloseBtn = document.querySelector('.success__button');
-    if (successCloseBtn) {
-      successCloseBtn.addEventListener('click', closeSuccessState);
-      successCloseBtn.addEventListener('click', cancelPreviewHandler);
-    }
+    imgUploadSubmitBtn.disabled = true;
+    const formData = new FormData(form);
+
+    fetch(
+      'https://30.javascript.pages.academy/kekstagram',
+      {
+        method: 'POST',
+        body: formData,
+      })
+      .then((response) => response.json())
+      .then(() => success())
+      .catch(() => failure())
+      .finally(() => {
+        imgUploadSubmitBtn.disabled = false;
+      });
     return true;
   } else {
-    failureState();
-    const failureCloseBtn = document.querySelector('.error__button');
-    if (failureCloseBtn) {
-      failureCloseBtn.addEventListener('click', closeFailureState);
-    }
+    failure();
     return false;
   }
 });

@@ -5,6 +5,7 @@ const domVariables = {
   imgUploadPreview: document.querySelector('.img-upload__preview > img'),
   imgUploadPreviewContainer: document.querySelector('.img-upload__preview'),
   cancelImgPreviewBtn: document.querySelector('.img-upload__cancel'),
+  imgUploadSubmitBtn: document.querySelector('.img-upload__submit'),
   scaleControlSmallerBtn: document.querySelector('.scale__control--smaller'),
   scaleControlBiggerBtn: document.querySelector('.scale__control--bigger'),
   scaleControlValue: document.querySelector('.scale__control--value'),
