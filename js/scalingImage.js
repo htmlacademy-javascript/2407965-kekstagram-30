@@ -3,6 +3,8 @@ import domVariables from './domVariables.js';
 const {
   imgUploadPreview,
   scaleControlValue,
+  scaleControlSmallerBtn,
+  scaleControlBiggerBtn
 } = domVariables;
 
 // scaling image:
@@ -22,7 +24,7 @@ const setControlValueState = () => {
 };
 
 // scales image smaller
-const scaleSmaller = () => {
+const reduceImgSize = () => {
   if (scaleControlValueState === 25) {
     scaleControlValueState = 25;
   } else {
@@ -33,7 +35,7 @@ const scaleSmaller = () => {
 };
 
 // scales image bigger
-const scaleBigger = () => {
+const increaseImgSize = () => {
   if (scaleControlValueState === 100) {
     scaleControlValueState = 100;
   } else {
@@ -43,8 +45,7 @@ const scaleBigger = () => {
   setControlValueState();
 };
 
-export {
-  setDefaultValueState,
-  scaleSmaller,
-  scaleBigger
-};
+scaleControlSmallerBtn.addEventListener('click', reduceImgSize);
+scaleControlBiggerBtn.addEventListener('click', increaseImgSize);
+
+export { setDefaultValueState };

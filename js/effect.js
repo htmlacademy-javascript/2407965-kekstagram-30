@@ -24,10 +24,14 @@ let sliderConfig = {
 };
 
 // effectNameList array that will contain list of effect names:
-const effectNameList = [];
-for (const [key] of effectMapList.entries()) {
-  effectNameList.push(key);
-}
+const effectNameList = [
+  'original',
+  'grayscale',
+  'sepia',
+  'invert',
+  'blur',
+  'brightness'
+];
 
 // creating first prototype of noUiSlider
 noUiSlider.create(effectLevelValueSlider, sliderConfig);
@@ -35,8 +39,9 @@ noUiSlider.create(effectLevelValueSlider, sliderConfig);
 let effectValue = 100;
 
 for (let i = 0; i < effectsRadioBtns.length; ++i) {
-  const radioClickHandler = () => {
-    if (effectsRadioBtns[i].checked) {
+  const effectRadioBtn = effectsRadioBtns[i];
+  const radioBtnClick = () => {
+    if (effectRadioBtn.checked) {
       effectLevelValueSlider.noUiSlider.destroy();
 
       sliderConfig = effectMapList.get(effectNameList[i]);
@@ -84,5 +89,5 @@ for (let i = 0; i < effectsRadioBtns.length; ++i) {
     }
   };
 
-  effectsRadioBtns[i].addEventListener('click', radioClickHandler);
+  effectRadioBtn.addEventListener('click', radioBtnClick);
 }

@@ -65,7 +65,7 @@ const previewImages = {
     });
 
     bigPictureCancelBtn.addEventListener('click', this.closeBigPictureOverlay);
-    document.addEventListener('keydown', (evt) => {
+    addEventListener('keydown', (evt) => {
       if (evt.key === 'Escape') {
         this.closeBigPictureOverlay();
       }
