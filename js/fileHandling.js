@@ -7,6 +7,7 @@ const {
   imgUploadOverlay,
   imgUploadPreview,
   imgUploadPreviewContainer,
+  cancelImgPreviewBtn,
   effectsRadioBtns,
   imgUploadEffectLevelContainer,
   formHashTags,
@@ -62,7 +63,6 @@ const cancelPreviewHandler = () => {
 
   if (!formHashTags.classList.contains('focused')) {
     if (!formDescription.classList.contains('focused')) {
-
       const successTemplate = document.querySelector('.success');
       const errorTemplate = document.querySelector('.error');
 
@@ -82,7 +82,14 @@ const cancelPreviewHandler = () => {
   }
 };
 
-export {
-  handleFiles,
-  cancelPreviewHandler
-};
+uploadImgInput.addEventListener('change', handleFiles);
+
+cancelImgPreviewBtn.addEventListener('click', cancelPreviewHandler);
+
+addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    cancelPreviewHandler();
+  }
+});
+
+export { cancelPreviewHandler };
